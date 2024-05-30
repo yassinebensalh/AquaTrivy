@@ -1,0 +1,131 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "49da02b3-b3d9-43aa-a3d1-b602500ef487",
+    "name": "trivy-contrib",
+    "friendlyName": "Trivy [contrib]: Take control of your application security",
+    "description": "Trivy is the world’s most popular open source vulnerability and misconfiguration scanner. It is reliable, fast, extremely easy to use, and it works wherever you need it.",
+    "helpMarkDown": "[Learn more about this task](https://github.com/georg-jung/trivy-azure-pipelines-task)",
+    "category": "Test",
+    "author": "Georg Jung, Aqua Security",
+    "version": { "Major":1,"Minor":0,"Patch":4 },
+    "instanceNameFormat": "Echo trivy $(version)",
+    "inputs": [
+        {
+            "name": "version",
+            "type": "string",
+            "label": "Trivy Version",
+            "defaultValue": "latest",
+            "required": false,
+            "helpMarkDown": "The version of Trivy to use"
+        },
+        {
+            "name": "docker",
+            "type": "boolean",
+            "label": "Run Trivy using the aquasec/trivy docker image",
+            "defaultValue": "true",
+            "required": false,
+            "helpMarkDown": "This can be useful when being rate limited by dockerhub etc."
+        },
+        {
+            "name": "debug",
+            "type": "boolean",
+            "label": "Enable Debug",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Enable debug logging in build output"
+        },
+        {
+            "name": "path",
+            "type": "string",
+            "label": "The path to scan",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The specified path will be scanned using an 'fs' scan type. If this option is used, the 'image' option cannot be set."
+        },
+        {
+            "name": "loginDockerConfig",
+            "type": "boolean",
+            "label": "Use Docker login task DockerConfig",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Use DOCKER_CONFIG ENV as DockerConfig (set by Docker login task)."
+        },
+        {
+            "name": "image",
+            "type": "string",
+            "label": "The image to scan",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The specified image will be scanned using an 'image' scan type. If this option is used, the 'path' option cannot be set."
+        },
+        {
+            "name": "severities",
+            "type": "string",
+            "label": "The severities (CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN) to include in the scan (comma sperated)",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The specified path or image will be scanned for the provided serverities."
+        },
+        {
+            "name": "ignoreUnfixed",
+            "type": "boolean",
+            "label": "Ignore unpatched/unfixed vulnerabilities",
+            "defaultValue": false,
+            "required": false,
+            "helpMarkDown": "This means you can't fix these vulnerabilities even if you update all packages."
+        },
+        {
+            "name": "exitCode",
+            "type": "string",
+            "label": "Exit code when Trivy detects issues.",
+            "defaultValue": "1",
+            "required": false,
+            "helpMarkDown": "Set this to 0 to prevent the build failing when Trivy detects issues."
+        },
+        {
+            "name": "scanners",
+            "type": "string",
+            "label": "Which scanners to use.",
+            "defaultValue": "vuln,misconfig,secret",
+            "required": false,
+            "helpMarkDown": "You might want to skip e.g. secret scanning in certain scenarios to reduce the scanning time."
+        },
+        {
+            "name": "aquaKey",
+            "type": "string",
+            "label": "Aqua API Key",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The Aqua API Key is used to upload scan results to your Aqua Security account."
+        },
+        {
+            "name": "aquaSecret",
+            "type": "string",
+            "label": "Aqua API Secret",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The Aqua API Secret is used to upload scan results to your Aqua Security account."
+        },
+        {
+            "name": "devMode",
+            "type": "boolean",
+            "label": "Enable development mode (used for internal testing)",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Not recommended."
+        },
+        {
+            "name": "options",
+            "type": "string",
+            "label": "Additional Options",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Additional flags to pass to Trivy command line."
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "index.js"
+        }
+    }
+}
